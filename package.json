@@ -1,0 +1,17 @@
+{
+  "name": "ocr-extract-document-text",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch --inspect ./src/server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "node-tesseract-ocr": "^2.2.1",
+    "tesseract.js": "^4.1.2"
+  }
+}
