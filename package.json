@@ -2,9 +2,10 @@
   "name": "ocr-extract-document-text",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./src/server.js",
   "type": "module",
   "scripts": {
+    "start": "node ./src/server.js",
     "dev": "node --watch --inspect ./src/server.js"
   },
   "author": "",
