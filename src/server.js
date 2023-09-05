@@ -1,11 +1,14 @@
 import express from 'express';
+import bodyParser from 'body-parser';
 
 const app = express();
 const port = process.env.PORT || 3000;
 
 import ocrExtractRoute from './routes/ocr-extract.route.js';
 
-app.use(express.json())
+app.use(bodyParser.json({limit: '50mb', extended: true}));
+app.use(bodyParser.urlencoded({limit: "50mb", extended: true, parameterLimit:50000}));
+app.use(bodyParser.text({ limit: '200mb' }));
 
 app.get('/', (req, res) => {
   res.send('Hello World!');
