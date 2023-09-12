@@ -5,6 +5,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 import ocrExtractRoute from './routes/ocr-extract.route.js';
+import pixelMatchRoute from './routes/pixel-match.route.js';
 
 app.use(bodyParser.json({limit: '50mb', extended: true}));
 app.use(bodyParser.urlencoded({limit: "50mb", extended: true, parameterLimit:50000}));
@@ -15,6 +16,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/ocr', ocrExtractRoute);
+app.use('/match', pixelMatchRoute);
 
 app.listen(port, () => {
   console.log(`OCR API listening at http://localhost:${port}`);
