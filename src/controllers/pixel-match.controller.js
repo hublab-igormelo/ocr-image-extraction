@@ -44,7 +44,9 @@ const compareImage = async (img) => {
       __dirname + '/not_approved/exem_5.png',
       __dirname + '/not_approved/exem_6.png',
       __dirname + '/not_approved/exem_7.png',
-      __dirname + '/not_approved/exem_8.png'
+      __dirname + '/not_approved/exem_8.png',
+      __dirname + '/not_approved/exem_9.png',
+      __dirname + '/not_approved/exem_10.png'
     ];
 
     // Caminhos dos arquivos das imagens aprovadas
@@ -61,7 +63,37 @@ const compareImage = async (img) => {
       __dirname + '/approved/exem_10.png',
       __dirname + '/approved/exem_11.png',
       __dirname + '/approved/exem_12.png',
-      __dirname + '/approved/exem_13.png'
+      __dirname + '/approved/exem_13.png',
+      __dirname + '/approved/exem_14.png',
+      __dirname + '/approved/exem_15.png',
+      __dirname + '/approved/exem_16.png',
+      __dirname + '/approved/exem_17.png',
+      __dirname + '/approved/exem_18.png',
+      __dirname + '/approved/exem_19.png',
+      __dirname + '/approved/exem_20.png',
+      __dirname + '/approved/exem_21.png',
+      __dirname + '/approved/exem_22.png',
+      __dirname + '/approved/exem_23.png',
+      __dirname + '/approved/exem_24.png',
+      __dirname + '/approved/exem_25.png',
+      __dirname + '/approved/exem_26.png',
+      __dirname + '/approved/exem_27.png',
+      __dirname + '/approved/exem_28.png',
+      __dirname + '/approved/exem_29.png',
+      __dirname + '/approved/exem_30.png',
+      __dirname + '/approved/exem_31.png',
+      __dirname + '/approved/exem_32.png',
+      __dirname + '/approved/exem_33.png',
+      __dirname + '/approved/exem_34.png',
+      __dirname + '/approved/exem_35.png',
+      __dirname + '/approved/exem_36.png',
+      __dirname + '/approved/exem_37.png',
+      __dirname + '/approved/exem_38.png',
+      __dirname + '/approved/exem_39.png',
+      __dirname + '/approved/exem_40.png',
+      __dirname + '/approved/exem_41.png',
+      __dirname + '/approved/exem_42.png',
+      __dirname + '/approved/exem_43.png'
     ];
 
     // Loop para ler as imagens e armazená-las na lista
