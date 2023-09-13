@@ -33,10 +33,10 @@ const compareImage = async (img) => {
     const imgUser = await urlToBuffer(base64ToBuffer(img));
 
     // Lista para armazenar as imagens lidas
-    const imagesToCompare = [];
+    const imagesNotApprovedToCompare = [], imagesApprovedToCompare = [];
 
-    // Caminhos dos arquivos das imagens
-    const imagePaths = [
+    // Caminhos dos arquivos das imagens não aprovadas
+    const imageNotApprovedPaths = [
       __dirname + '/not_approved/exem_1.png',
       __dirname + '/not_approved/exem_2.png',
       __dirname + '/not_approved/exem_3.png',
@@ -47,22 +47,55 @@ const compareImage = async (img) => {
       __dirname + '/not_approved/exem_8.png'
     ];
 
+    // Caminhos dos arquivos das imagens aprovadas
+    const imageApprovedPaths = [
+      __dirname + '/approved/exem_1.png',
+      __dirname + '/approved/exem_2.png',
+      __dirname + '/approved/exem_3.png',
+      __dirname + '/approved/exem_4.png',
+      __dirname + '/approved/exem_5.png',
+      __dirname + '/approved/exem_6.png',
+      __dirname + '/approved/exem_7.png',
+      __dirname + '/approved/exem_8.png',
+      __dirname + '/approved/exem_9.png',
+      __dirname + '/approved/exem_10.png',
+      __dirname + '/approved/exem_11.png',
+      __dirname + '/approved/exem_12.png',
+      __dirname + '/approved/exem_13.png'
+    ];
+
     // Loop para ler as imagens e armazená-las na lista
-    for (const imagePath of imagePaths) {
+    for (const imagePath of imageNotApprovedPaths) {
       const imgBuffer = await urlToBuffer(fs.readFileSync(imagePath));
-      imagesToCompare.push(imgBuffer);
+      imagesNotApprovedToCompare.push(imgBuffer);
     }
 
-    var listOfComparedImages = [];
+    // Loop para ler as imagens e armazená-las na lista
+    for (const imagePath of imageApprovedPaths) {
+      const imgBuffer = await urlToBuffer(fs.readFileSync(imagePath));
+      imagesApprovedToCompare.push(imgBuffer);
+    }
 
-    for (const image of imagesToCompare) {
+    var listOfComparedImages = { notApproved: [], approved: [] };
+
+    for (const image of imagesNotApprovedToCompare) {
       const imgCompare = PNG.sync.read(image);
       const imgUserRead = PNG.sync.read(imgUser);
       const { width, height } = imgCompare;
       const diff = new PNG({ width, height });
       const difference = pixelmatch(imgCompare.data, imgUserRead.data, diff.data, width, height, { threshold: 0.1 });
       const compatibility = 100 - (difference * 100) / (width * height);
-      listOfComparedImages.push(compatibility);
+      listOfComparedImages.notApproved.push(compatibility);
+    }
+
+    for (const image of imagesApprovedToCompare) {
+      const imgCompare = PNG.sync.read(image);
+      const imgUserRead = PNG.sync.read(imgUser);
+      const { width, height } = imgCompare;
+      const diff = new PNG({ width, height });
+      const difference = pixelmatch(imgCompare.data, imgUserRead.data, diff.data, width, height, { threshold: 0.1 });
+      const compatibility = 100 - (difference * 100) / (width * height);
+      listOfComparedImages.approved.push(compatibility);
     }
 
     return listOfComparedImages;
