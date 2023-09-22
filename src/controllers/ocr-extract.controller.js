@@ -18,7 +18,7 @@ async function extractTextFromImage(img) {
       scheduler.addJob('recognize', img)
     )))
     await scheduler.terminate(); // It also terminates all workers.
-    return results.map(({ data: { text } }) => text);
+    return results.map(({ data: { text } }) => text.replace(/(\r\n|\n|\r)/gm, " "));
   })();
 
   return results;

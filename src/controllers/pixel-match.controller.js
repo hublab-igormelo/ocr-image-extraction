@@ -4,6 +4,14 @@ import { PNG } from "pngjs";
 import pixelmatch from "pixelmatch";
 import path from 'path';
 import { fileURLToPath } from 'url';
+import stringSimilarity from 'string-similarity';
+
+import extractTextFromImage from './ocr-extract.controller.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const fileBlockedPath = __dirname + '/not_approved/not_approved_blocked.txt';
 
 const urlToBuffer = async (url) => {
   return new Promise(async (resolve, reject) => {
@@ -21,9 +29,6 @@ const urlToBuffer = async (url) => {
 const compareImage = async (img) => {
   try {
     if (!img) throw new Error("Image is required");
-
-    const __filename = fileURLToPath(import.meta.url);
-    const __dirname = path.dirname(__filename);
 
     const base64ToBuffer = (base64String) => {
       const data = base64String.replace(/^data:image\/\w+;base64,/, '');
@@ -130,10 +135,34 @@ const compareImage = async (img) => {
       listOfComparedImages.approved.push(compatibility);
     }
 
+    var userPhrase = await extractTextFromImage(imgUser);
+    userPhrase = userPhrase[0];
+    userPhrase = "quero banana"
+
+    const phrases = readPhrasesFromFile();
+    const totalSimilarity = [];
+
+    const ocrListSimilaritys = stringSimilarity.findBestMatch(userPhrase, [...phrases]);
+    ocrListSimilaritys.ratings.forEach((rating, index) => {
+      totalSimilarity.push(rating.rating);
+    });
+
+    listOfComparedImages.blockedOcrMatch = ocrListSimilaritys.bestMatch;
+
     return listOfComparedImages;
   } catch (error) {
     throw error;
   }
 }
+
+const readPhrasesFromFile = () => {
+  try {
+    const data = fs.readFileSync(fileBlockedPath, 'utf-8');
+    const phrases = data.split('\n').map((phrase) => phrase.trim());
+    return phrases;
+  } catch (error) {
+    throw error;
+  }
+};
 
 export default compareImage;
