@@ -137,7 +137,6 @@ const compareImage = async (img) => {
 
     var userPhrase = await extractTextFromImage(imgUser);
     userPhrase = userPhrase[0];
-    userPhrase = "quero banana"
 
     const phrases = readPhrasesFromFile();
     const totalSimilarity = [];
