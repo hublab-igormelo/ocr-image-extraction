@@ -4,6 +4,7 @@ import { fileURLToPath } from 'url';
 import path from 'path';
 import moment from 'moment';
 import { v4 as uuidv4 } from 'uuid';
+import axios from 'axios';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -12,13 +13,20 @@ async function placeBorderEventInImage(imageUserBase64, imageFrameBase64) {
   if (!imageUserBase64) throw new Error("'img' base64 is required in body");
   try {
     const userImageBuffer = Buffer.from(imageUserBase64.replace(/^data:image\/\w+;base64,/, ''), 'base64');
-    const borderImageBuffer = imageFrameBase64 ? Buffer.from(imageFrameBase64.replace(/^data:image\/\w+;base64,/, ''), 'base64') : __dirname + '/event-border/moldura-default-blue.png';
-    
+    var borderImageBuffer;
+
+    try {
+      const response = await axios.get(imageFrameBase64, { responseType: 'arraybuffer' });
+      borderImageBuffer = Buffer.from(response.data, 'utf-8');
+    } catch (error) {
+      borderImageBuffer = imageFrameBase64 ? Buffer.from(imageFrameBase64.replace(/^data:image\/\w+;base64,/, ''), 'base64') : __dirname + '/event-border/moldura-default-blue.png';
+    }
+
     const userImage = sharp(userImageBuffer);
     const borderImage = sharp(borderImageBuffer);
 
-    userImage.resize(1000, 1000);
-    borderImage.resize(1000, 1000);
+    userImage.resize(3000, 3000);
+    borderImage.resize(3000, 3000);
 
     const currentDate = moment().format('YYYY-MM-DD-HHmmss');
     const outputFileName = `mergedImage${uuidv4()}_${currentDate}.png`;
