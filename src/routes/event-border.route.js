@@ -8,7 +8,7 @@ router.use(function timeLog(req, res, next) {
   next();
 });
 
-router.get('/createFrameByImage', async (req, res) => {
+router.post('/createFrameByImage', async (req, res) => {
   try {
     const imageWithFrame = await placeBorderEventInImage(req.body.img, req.body.imgFrame);
     res.status(200).json({ code: "00", message: "Image processed successfully", linkImage: imageWithFrame });
