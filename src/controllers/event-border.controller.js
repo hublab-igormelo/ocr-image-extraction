@@ -12,6 +12,9 @@ const __dirname = path.dirname(__filename);
 async function placeBorderEventInImage(imageUserBase64, imageFrameBase64) {
   if (!imageUserBase64) throw new Error("'img' base64 is required in body");
   try {
+    // REGRA APENAS PARA ID HUBCHAT
+    imageUserBase64 = await getImageByIdHubchat(imageUserBase64);
+
     const userImageBuffer = Buffer.from(imageUserBase64.replace(/^data:image\/\w+;base64,/, ''), 'base64');
     var borderImageBuffer;
 
@@ -58,6 +61,19 @@ async function placeBorderEventInImage(imageUserBase64, imageFrameBase64) {
   } catch (error) {
     console.trace(error);
     throw new Error("Error processing image" + error.message);
+  }
+}
+
+async function getImageByIdHubchat(imgId) {
+  let config = {
+    method: 'get',
+    url: `https://whats.hublab.com.br/meta/media/f3CmtIezelgki701/${imgId}`,
+  };
+  try {
+    const response = await axios(config);
+    return response.data;
+  } catch (error) {
+    return error.message;
   }
 }
 
