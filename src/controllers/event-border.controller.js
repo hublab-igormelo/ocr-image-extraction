@@ -3,6 +3,7 @@ import fs from 'fs';
 import { fileURLToPath } from 'url';
 import path from 'path';
 import moment from 'moment';
+import { v4 as uuidv4 } from 'uuid';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -19,8 +20,9 @@ async function placeBorderEventInImage(imageUserBase64, imageFrameBase64) {
     userImage.resize(1000, 1000);
     borderImage.resize(1000, 1000);
 
-    const currentDate = moment().format('YYYY-MM-DD HH:mm:ss');
-    const outputFileName = `mergedImage_${currentDate}.png`;
+    const currentDate = moment().format('YYYY-MM-DD-HHmmss');
+    const outputFileName = `mergedImage${uuidv4()}_${currentDate}.png`;
+    const urlToImage = 'https://' + process.env.HEROKU_PROJECT_NAME + '.herokuapp.com/static/' + outputFileName;
 
     const mergedImageBuffer = await userImage.composite([
       {
@@ -31,10 +33,12 @@ async function placeBorderEventInImage(imageUserBase64, imageFrameBase64) {
       },
     ]).toBuffer();
 
-    // const outputPath = path.join(__dirname, 'event-border', 'processed', outputFileName);
-    // fs.writeFileSync(outputPath, mergedImageBuffer);
+    const outputPath = path.join(__dirname, 'event-border', 'processed', outputFileName);
+    fs.writeFileSync(outputPath, mergedImageBuffer);
 
-    return mergedImageBuffer;
+    
+
+    return urlToImage;
   } catch (error) {
     console.trace(error);
     throw new Error("Error processing image" + error.message);

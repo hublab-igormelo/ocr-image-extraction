@@ -1,5 +1,11 @@
+import 'dotenv/config';
 import express from 'express';
 import bodyParser from 'body-parser';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -11,6 +17,8 @@ import frameByImageRoute from './routes/event-border.route.js';
 app.use(bodyParser.json({limit: '50mb', extended: true}));
 app.use(bodyParser.urlencoded({limit: "50mb", extended: true, parameterLimit:50000}));
 app.use(bodyParser.text({ limit: '200mb' }));
+
+app.use('/static', express.static(path.join(__dirname, 'controllers', 'event-border', 'processed')));
 
 app.get('/', (req, res) => {
   res.send('Hello World!');

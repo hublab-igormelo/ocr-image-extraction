@@ -10,17 +10,9 @@ router.use(function timeLog(req, res, next) {
 
 router.get('/createFrameByImage', async (req, res) => {
   try {
-    const resultExtraction = await placeBorderEventInImage(req.body.img, req.body.imgFrame);
-    res.status(200).type('image/png').send(resultExtraction);
-  } catch (error) {
-    res.status(400).json({ code: "99", message: error.message })
-  }
-});
-
-router.get('/imageProcessed', async (req, res) => {
-  try {
-    const resultExtraction = await placeBorderEventInImage(req.body.img);
-    res.status(200).type('image/png').send(resultExtraction);
+    const imageWithFrame = await placeBorderEventInImage(req.body.img, req.body.imgFrame);
+    console.log('https://' + process.env.HEROKU_PROJECT_NAME + '.herokuapp.com/static/' + imageWithFrame)
+    res.status(200).json({ code: "00", message: "Image processed successfully", linkImage: imageWithFrame });
   } catch (error) {
     res.status(400).json({ code: "99", message: error.message })
   }
