@@ -49,7 +49,7 @@ const compareImage = async (img) => {
 
     // Caminhos dos arquivos das imagens aprovadas
     var imageApprovedPaths = [];
-    for (let i = 1; i <= 44; i++) {
+    for (let i = 1; i <= 48; i++) {
       const imagePath = path.join(__dirname, 'approved', `exem_${i}.png`);
       imageApprovedPaths.push(imagePath);
     }
