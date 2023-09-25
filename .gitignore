@@ -1,7 +1,9 @@
 node_modules/*
 ./node_modules
+.node_modules
+node_modules
 
+processed/
 package-lock.json
 .env
-\src\controllers\event-border\processed
-.\src\controllers\event-border\processed
+**/dist

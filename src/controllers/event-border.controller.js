@@ -33,10 +33,18 @@ async function placeBorderEventInImage(imageUserBase64, imageFrameBase64) {
       },
     ]).toBuffer();
 
+    const pathToEventBorder = path.join(__dirname, 'event-border');
+    if (!fs.existsSync(pathToEventBorder)) {
+      fs.mkdirSync(pathToEventBorder);
+    }
+
+    const pathToProcessedFrame = path.join(__dirname, 'event-border', 'processed');
+    if (!fs.existsSync(pathToProcessedFrame)) {
+      fs.mkdirSync(pathToProcessedFrame);
+    }
+
     const outputPath = path.join(__dirname, 'event-border', 'processed', outputFileName);
     fs.writeFileSync(outputPath, mergedImageBuffer);
-
-    
 
     return urlToImage;
   } catch (error) {
